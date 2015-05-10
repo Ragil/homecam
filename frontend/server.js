@@ -15,7 +15,7 @@ var app = express();
  ************************************************************/
 
 // Serve application file depending on environment
-app.get('/app.js', function(req, res) {
+app.get('/hc/app.js', function(req, res) {
   if (process.env.PRODUCTION) {
     res.sendFile(__dirname + '/build/local/app.js');
   } else {

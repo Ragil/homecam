@@ -19,7 +19,7 @@ export default class AppRouter extends React.Component {
 
 AppRouter.getRoutes = function() {
   return (
-    <Route name="app" path="/" handler={AppRouter}>
+    <Route name="app" path="/hc/" handler={AppRouter}>
       <DefaultRoute name="main" handler={MainPage} />
     </Route>
   );
