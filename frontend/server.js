@@ -17,15 +17,15 @@ var app = express();
 // Serve application file depending on environment
 app.get('/app.js', function(req, res) {
   if (process.env.PRODUCTION) {
-    res.sendFile(__dirname + '/build/app.js');
+    res.sendFile(__dirname + '/build/local/app.js');
   } else {
-    res.redirect('//localhost:9090/build/app.js');
+    res.redirect('//localhost:9090/build/local/app.js');
   }
 });
 
 // Serve index page
 app.get('*', function(req, res) {
-  res.sendFile(__dirname + '/build/index.html');
+  res.sendFile(__dirname + '/build/local/index.html');
 });
 
 app.post('/landing', function(req, res) {

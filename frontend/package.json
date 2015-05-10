@@ -1,7 +1,7 @@
 {
-  "name": "scratchcast",
+  "name": "homecam",
   "version": "0.0.0",
-  "description": "prototype",
+  "description": "live feed of home webcams",
   "main" : "src/main.jsx",
   "scripts": {
     "postinstall": "npm run build",
@@ -10,7 +10,7 @@
     "test": "PHANTOMJS_BIN=./node_modules/.bin/phantomjs ./node_modules/karma/bin/karma start karma.config.js",
     "test-cross-browser": "./node_modules/karma/bin/karma start karma.cross-browser.config.js",
     "coveralls": "cat coverage/lcov.info | coveralls",
-    "clean": "rm -r build/*"
+    "clean": "rm -rf build/*"
   },
   "license": "MIT",
   "devDependencies": {

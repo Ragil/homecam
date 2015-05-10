@@ -26,9 +26,9 @@ module.exports = {
   // This will not actually create a bundle.js file in ./build. It is used
   // by the dev server for dynamic hot loading.
   output: {
-    path: __dirname + "/build/",
+    path: __dirname + "/build/local/",
     filename: "app.js",
-    publicPath: "http://localhost:9090/build/"
+    publicPath: "http://localhost:9090/build/local"
   },
 
   // Necessary plugins for hot load
