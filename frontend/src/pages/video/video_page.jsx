@@ -28,10 +28,7 @@ export default class VideoPage extends React.Component {
 
       let webrtc = new SimpleWebRTC({
         peerConnectionConfig : {
-          iceServers : [
-            { url : 'stun.example.com:222' }
-          ],
-          iceTransportPolicy : 'relay'
+          iceServers : [{"url": "stun:global.stun.twilio.com:3478?transport=udp"}, {"url": "turn:global.turn.twilio.com:3478?transport=udp", "username": "292264de8ad148883d7f8ed12f91cecaa02565d0602055eb91d9283cf243a561", "credential": "ffpnAyooyKpuTsasyHvdHT7A8Sy7ZnvfX3VT8wxyGYw="}] 
         },
         localVideoEl : local,
         remoteVideoEl : remote,

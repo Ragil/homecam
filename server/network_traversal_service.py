@@ -1,5 +1,4 @@
 import os
-import json
 import requests
 
 from util import jsonify
@@ -8,6 +7,7 @@ from flask import request
 
 
 app = Flask(__name__)
+app.debug = True
 
 if 'twilioAccountSID' not in os.environ:
   raise ValueError('twilioAccountSID is not defined in env')

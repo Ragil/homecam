@@ -8,10 +8,6 @@ var app = express();
  *   - app.js
  *   - index.html
  *
- *   Sample endpoints to demo async data fetching:
- *     - POST /landing
- *     - POST /home
- *
  ************************************************************/
 
 // Serve application file depending on environment
@@ -26,18 +22,6 @@ app.get('/hc/app.js', function(req, res) {
 // Serve index page
 app.get('*', function(req, res) {
   res.sendFile(__dirname + '/build/local/index.html');
-});
-
-app.post('/landing', function(req, res) {
-  res.json({
-    title: "Landing Page"
-  });
-});
-
-app.post('/home', function(req, res) {
-  res.json({
-    title: "Home Page"
-  });
 });
 
 

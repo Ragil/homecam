@@ -1,3 +1,5 @@
+import json
+
 
 def jsonify(func):
   """Convert response into json object."""
