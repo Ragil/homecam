@@ -1,5 +1,6 @@
-var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var path = require('path');
+var webpack = require('webpack');
 
 /**
  * This is the Webpack configuration file for local development. It contains
@@ -51,6 +52,10 @@ module.exports = {
 
   // Automatically transform files with these extensions
   resolve: {
+    root : path.resolve(__dirname, '.'),
+    alias : {
+      'env' : 'src/common/env_local.js'
+    },
     extensions: ['', '.js', '.jsx']
   }
 }

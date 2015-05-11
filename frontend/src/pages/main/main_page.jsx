@@ -10,7 +10,6 @@ export default class MainPage extends React.Component {
   render() {
     return (
       <div id="landing-page">
-        <h1>working</h1>
         <VideoPage />
       </div>
     );

@@ -2,12 +2,19 @@ import os
 import requests
 
 from util import jsonify
-from flask import Flask
-from flask import request
+from flask import Flask, request
+from flask.ext.compress import Compress
+from flask.ext.cors import cross_origin
 
 
 app = Flask(__name__)
-app.debug = True
+app.config.update(
+  debug=True,
+  JSON_SORT_KEYS=True,
+  JSONIFY_PRETTYPRINT_REGULAR=False,
+)
+Compress(app)
+
 
 if 'twilioAccountSID' not in os.environ:
   raise ValueError('twilioAccountSID is not defined in env')
@@ -20,9 +27,10 @@ authToken = os.environ['twilioAuthToken']
 tokenCache = {}
 
 
-@app.route('/turn', methods=['POST'])
+@app.route('/nts', methods=['POST'])
+@cross_origin()
 @jsonify
-def turn(*args, **kwargs):
+def nts(*args, **kwargs):
   """Generate ice_server for a given room.
 
   room: the room id
@@ -40,7 +48,9 @@ def turn(*args, **kwargs):
 
   if r.status_code >= 200 and r.status_code < 300:
     data = r.json()
-    tokenCache[room] = data['ice_servers']
+    tokenCache[room] = {
+      'iceServers' : data['ice_servers']
+    }
     return tokenCache[room]
 
   return {'error' : r.content}
