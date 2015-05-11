@@ -1,0 +1,14 @@
+module: default
+version: 1
+runtime: python27
+vm: true
+api_version: 1
+threadsafe: yes
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 2
+
+handlers:
+- url: .*
+  script: main.app
