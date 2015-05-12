@@ -68,7 +68,11 @@ export default class VideoPage extends React.Component {
   render() {
     let remoteVideo = [];
     _.each(this.state.remote.peers, (peer) => {
-      remoteVideo.push(<video key={peer.id} autoPlay src={peer.videoEl.src} />);
+      remoteVideo.push(
+        <div className="video-page-remote">
+          <video key={peer.id} autoPlay src={peer.videoEl.src} />
+        </div>
+      );
     });
 
     return (
@@ -76,9 +80,8 @@ export default class VideoPage extends React.Component {
         <div className="video-page-local">
           <video autoPlay ref="videoLocal"/>
         </div>
-        <div className="video-page-remote">
-          {remoteVideo}
-        </div>
+
+        {remoteVideo}
       </div>
     );
   }
