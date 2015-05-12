@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /**
@@ -28,6 +29,10 @@ module.exports = {
   },
 
   resolve: {
+    root : path.resolve(__dirname, '.'),
+    alias : {
+      'env' : 'src/common/env_local.js'
+    },
     extensions: ['', '.js', '.jsx']
   }
 }
