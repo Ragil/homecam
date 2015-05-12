@@ -1,8 +1,8 @@
 import os
 import requests
 
-from util import jsonify
-from flask import Flask, request
+from util import jsonify, config
+from flask import Flask, request, json, abort
 from flask.ext.compress import Compress
 from flask.ext.cors import cross_origin
 
@@ -15,16 +15,49 @@ app.config.update(
 )
 Compress(app)
 
+# dynamic properties
+ndb_config = config.NDBConfigSource('local')
+properties = config.Properties([
+  ndb_config,
+  config.ConfigServiceSource('global')
+])
 
-if 'twilioAccountSID' not in os.environ:
-  raise ValueError('twilioAccountSID is not defined in env')
-if 'twilioAuthToken' not in os.environ:
-  raise ValueError('twilioAuthToken is not defined in env')
 
-accountSID = os.environ['twilioAccountSID']
-authToken = os.environ['twilioAuthToken']
-
+# cache for tokens - TODO : use memcache
 tokenCache = {}
+
+
+# convert all errors into json
+def generic_error_handler(error):
+  try:
+    return json.jsonify(error.description), error.code
+  except:
+    return error
+
+for error in range(400, 420):
+    app.error_handler_spec[None][error] = generic_error_handler
+
+
+@app.route('/admin/config', methods=['POST'])
+@cross_origin()
+@jsonify
+def put_config():
+  """Update ndb config.
+
+  props - a json object of props
+  """
+  data = request.get_json()
+  if not data or 'props' not in data:
+    abort(400, { 'error' : 'props is required' })
+
+  ndb_config.store(data['props'])
+  return ndb_config.fetch()
+
+@app.route('/admin/config', methods=['GET'])
+@cross_origin()
+@jsonify
+def get_config():
+  return ndb_config.fetch({})
 
 
 @app.route('/nts', methods=['POST'])
@@ -35,13 +68,16 @@ def nts(*args, **kwargs):
 
   room: the room id
   """
-
   room = request.args.get('room', '')
   if not room:
-    raise ValueError('Room is required')
+    abort(400, {'error' : 'room is required'})
 
   if room in tokenCache:
     return tokenCache[room]
+
+  props = properties.fetch()
+  accountSID = props['twilioAccountSID']
+  authToken = props['twilioAuthToken']
 
   url = 'https://api.twilio.com/2010-04-01/Accounts/%s/Tokens.json' % accountSID
   r = requests.post(url, auth=(accountSID, authToken))
